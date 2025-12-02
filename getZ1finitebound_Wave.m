@@ -54,12 +54,12 @@ reffull=setsizetensor(symmetrytofulltensor_ext(ref,solshape,symmetry),Q2N);
 
 % weights in the symmetrized norm
 orbits=grouporder./multiplicity; % orbit-stabilizer formula
-weights=eta.^(abs(nx)+abs(ny)+abs(nz)).*orbits;%Adjusted
+weights=eta.^(abs(nx)+abs(ny)+abs(nz)).*orbits;
 weightsetaOmega=[weights(finitesymvar);etaOmega];
 weightsymvar=weights(symvar);
 
 % diagonal part
-lambda=reshape(1./abs(-1i*c*nz(:)+nu*tilden2(:)),size(tilden2)); % Adjusted
+lambda=reshape(1./abs(-1i*c*nz(:)+nu*tilden2(:)),size(tilden2)); 
 % multiplied by weights
 lambdaweights=lambda.*weights;
 lambdaweightstail=lambdaweights(tailsymvar);
@@ -82,7 +82,7 @@ compind{1}=(compsymvar==1);
 compind{2}=(compsymvar==2);
 compind{3}=(compsymvar==3);
 
-% operator norm matrix A -- This is added so I do not have to do the matrix
+% operator norm matrix A -- This is added so we do not have to do the matrix
 % multiplication in each loop
 v=weightsetaOmega';
 Anorm=max((v*abs(A))./v);
@@ -117,8 +117,6 @@ for counter=1:nsteps
         lvals=find(column~=0);
         nvals=column(lvals(:));
         Mvals=sign(nvals).*nnreci(abs(nvals));
-        % max(compind{lvals(1)}) % This is zero in several loops
-        % Mnlm=Mvals(1)*(compind{lvals(1)})+Mvals(2)*(compind{lvals(2)});
 
         % shift of the indices (coming from derivative of convolution)
         nsx=nsymvar(:,1)-nx(jjj);
@@ -195,11 +193,11 @@ end
 Z1finite=max(Qcolumnnorms);
 
 % derivative w.r.t. the frequency
-Z1freqterm=abs(nz(soltailsymvar).*wfull(soltailsymvar)); % Adjusted
+Z1freqterm=abs(nz(soltailsymvar).*wfull(soltailsymvar)); 
 Z1freqterm=Z1freqterm.*lambdaweightssoltail;
 Z1freqterm=sum(Z1freqterm)/etaOmega;
 disp(['contribution of ',int2str(length(find(soltailsymvar))),' elements in frequency term to Z1 is ',num2str(altsup(Z1freqterm))]);
 
 Z1finite=max([Z1finite,Z1freqterm]);
 
-
+end

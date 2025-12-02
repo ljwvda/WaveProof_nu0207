@@ -1,8 +1,6 @@
-function [success,rmin,rmax,bounds] = checkpolytensorsplit_ext_Wave(x0,nu,forcing,ref,solshape,symmetry,Ndagger,Ntilde,eta,etaOmega,setup,parallel)
+function [success,rmin,rmax,bounds] = checkpolytensorsplit_ext_Wave(x0,nu,forcing,ref,solshape,symmetry,Ndagger,Ntilde,eta,etac,setup,parallel)
 % This computes the radii polynomial and checks if it is negative somewhere
 % If nu is an intval it uses interval arithmetic 
-
-% Adjusted for extra symmetry cases
 
 if ~exist('parallel','var')
     parallel=false;
@@ -20,7 +18,7 @@ if exist('intval','file') && isintval(nu)
   forcing=intval(forcing);
   ref=intval(ref);
   eta=intval(eta);
-  etaOmega=intval(etaOmega);
+  etac=intval(etac);
 else
   disp('no intervals yet')
 end
@@ -54,7 +52,7 @@ N=sizeshape_Wave(solshape);
 Edaggershape.type=Edaggersh;
 Edaggershape.Nell=Ndagger;
 Edaggershape.nu=nu;
-Edaggershape.omega=c;
+Edaggershape.omega=c; % omega notation is from 2D code
 M=sizeshape_Wave(Edaggershape);
 Etildeshape.type=Etildesh;
 Etildeshape.Nell=Ntilde;
@@ -80,25 +78,25 @@ disp(['the dimension of A is ',int2str(size(A,1))]);
 
 %%% Y bound %%%
 
-Y=getYbound_Wave(A,Fext,Fphase,solshape,symmetry,Edaggershape,nu,c,eta,etaOmega);
+Y=getYbound_Wave(A,Fext,Fphase,solshape,symmetry,Edaggershape,nu,c,eta,etac);
 disp(['Y bound is (wave) ',num2str(altsup(Y))]);
 
 %%% Z2 bound %%%
 
-Z2=getZ2bound_Wave(A,symmetry,Edaggershape,nu,c,eta,etaOmega,Ndagger);
+Z2=getZ2bound_Wave(A,symmetry,Edaggershape,nu,eta,etac,Ndagger);
 disp(['Z2 bound is (wave) ',num2str(altsup(Z2))]);
 
 %%% Z0 bound %%%
 
-Z0=getZ0bound_Wave(A,J,symmetry,Edaggershape,eta,etaOmega);
-clear('J'); % no longer needed
+Z0=getZ0bound_Wave(A,J,symmetry,Edaggershape,eta,etac);
+clear('J'); % J is no longer needed
 disp(['Z0 bound is (wave) ',num2str(altsup(Z0))]);
 
 %%% Z1 bound %%%
 
 %%% Tail part of Z1 %%%%
 
-Z1tail=getZ1tailbound_Wave(wsol,tensors,solshape,symmetry,nu,eta,Ntilde,setup);
+Z1tail=getZ1tailbound_Wave(wsol,tensors,solshape,symmetry,nu,eta,Ntilde);
 disp(['the Z1 tail term is (wave) ',num2str(altsup(Z1tail))]); 
 
 %%% Finite part of Z1 %%%
@@ -106,10 +104,10 @@ disp(['the Z1 tail term is (wave) ',num2str(altsup(Z1tail))]);
 
 if parallel
     Z1finite=getZ1finiteboundparallel_Wave(A,w,tensors,...
-                solshape,Edaggershape,Etildeshape,symmetry,nu,c,eta,etaOmega,ref);    
+                solshape,Edaggershape,Etildeshape,symmetry,nu,c,eta,etac,ref);    
 else
     Z1finite=getZ1finitebound_Wave(A,w,tensors,...
-                solshape,Edaggershape,Etildeshape,symmetry,nu,c,eta,etaOmega,ref);
+                solshape,Edaggershape,Etildeshape,symmetry,nu,c,eta,etac,ref);
 end
 disp(['the finite term of Z1 is (wave) ',num2str(altsup(Z1finite))]);
 

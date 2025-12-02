@@ -8,8 +8,6 @@ function [symvar,symindex,symfactor,grouporder,multiplicity,symindexextra] ...
 % multiplicity: is the order of the stabilizer subgroup (for indices in Jsym)
 % symindexextra: for each index in Jred tells us which elements are in its orbit
 
-% Extended with cases for second and third Hopf bifurcation point
-
 % determines a fundamental domain
 switch symmetry
     case 0 % no symmetries
@@ -27,18 +25,9 @@ switch symmetry
         independentofz=(nz==0);
         zcomponly=(comp==3);
         nsym= (nsym & independentofz & zcomponly);
-    case 20
+    case 20 % Traveling waves
         nsym=(nx>=0 & ny>=0 & ((ny<=nx & comp==3) | comp==1));
         grouporder=16;
-    case 21
-        nsym=(nx>=0 & ny>=0);
-        grouporder=4;
-    case 22 % test only first symmetry
-        nsym=((nx>=0 & ny>=0) | (ny<0 & nx>0));
-        grouporder=2;
-    case 23 % test only second symmetry
-        nsym=((nx>=0));
-        grouporder=2;
 end
 
 % "average" over the group action (without normalizing with the group order)
@@ -90,8 +79,7 @@ switch symmetry
             wtmp{k}=wtmp{k-8};  %P2D symmetry
         end
         grouporder=8;
-    
-    case 20
+    case 20 % Traveling waves
         wtmp{2}=symredindex(end:-1:1,end:-1:1,:,:,:);
         for k=3:4
             wtmp{k}=wtmp{k-2}(end:-1:1,:,:,:,:);   %DSx symmetry
@@ -104,18 +92,6 @@ switch symmetry
             wtmp{k}=wtmp{k-8};  %P2D symmetry
         end
         grouporder=16;
-    case 21
-        wtmp{2}=symredindex(end:-1:1,end:-1:1,:,:,:);
-        for k=3:4
-            wtmp{k}=wtmp{k-2}(end:-1:1,:,:,:,:);   %DSx symmetry
-        end
-        grouporder=4;
-    case 22
-        wtmp{2}=symredindex(end:-1:1,end:-1:1,:,:,:);
-        grouporder=2;
-    case 23
-        wtmp{2}=symredindex(end:-1:1,:,:,:,:);
-        grouporder=2;
 end
 
 % symindex: for each index in Jsym tells us the (unique) element of Jred in its orbit

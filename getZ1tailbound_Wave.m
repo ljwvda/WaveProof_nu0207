@@ -1,4 +1,4 @@
-function [Z1tail,Z1tailcoeff]=getZ1tailbound_Wave(wsol,tensors,solshape,symmetry,nu,eta,Ntilde,setup)
+function [Z1tail,Z1tailcoeff]=getZ1tailbound_Wave(wsol,tensors,solshape,symmetry,nu,eta,Ntilde)
 % computes the Z1 tail bound specific for traveling waves
 
 Dw=tensors.Dw;
@@ -10,7 +10,7 @@ N=sizeshape_Wave(solshape);
 [nx,ny,nz,~] = countersymtensor(N,solshape);
 
 % nonsymmetrized weights
-weights=eta.^(abs(nx)+abs(ny)+abs(nz));% Adjusted
+weights=eta.^(abs(nx)+abs(ny)+abs(nz));
 
 % norms of (Mw)^p
 Mwxi=abs(Mw).*weights;
@@ -54,15 +54,7 @@ else
     rootN=sqrt(Ntilde);
 end
 
-% rescaling by appropriate factor in the bound
-% For waves we need sqrt(3) as we do not have that one of the components of
-% Mw is zero
-% if exist('setup','var') && strcmp(setup,'2D')
-%       disp('using the 2D bound for the Z1 tail estimate')
-%       pMw=pMw/sqrt(nu/2);
-% else
-      pMw=pMw/sqrt(nu/3);
-% end
+pMw=pMw/sqrt(nu/3);
 
 % the three components of the tail bound
 Z1tailm=max(pMw)/rootN+(3*sum(pw)/2-pw/2+mDMw+sum(mDw)-mDw)/Ntilde;
@@ -71,3 +63,5 @@ Z1tail=max(Z1tailm);
 
 % extra output to be able to estimate Ntilde
 Z1tailcoeff=[max(pMw);max(3*sum(pw)/2-pw/2+mDMw+sum(mDw)-mDw)];
+
+end

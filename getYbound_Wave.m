@@ -1,7 +1,5 @@
-function Y=getYbound_Wave(A,Fext,Fphase,solshape,symmetry,Edaggershape,nu,c,eta,etaOmega)
-% computes the Y bound
-
-% Adjusted for the wave equation (c is now also an input instead of Omega)
+function Y=getYbound_Wave(A,Fext,Fphase,solshape,symmetry,Edaggershape,nu,c,eta,etac)
+% computes the Y0 bound for traveling waves
 
 % biggest index set needed
 M2N=max(sizeshape_Wave(Edaggershape),2*sizeshape_Wave(solshape));
@@ -20,17 +18,14 @@ symindextail=symindex(tailsymvar);
 
 % weights in the symmetrized norm
 orbits=grouporder./multiplicity; % orbit-stabilizer formula
-%weights=eta.^(abs(nx)+abs(ny)+abs(nz)+abs(nt)).*orbits;
 weights=eta.^(abs(nx)+abs(ny)+abs(nz)).*orbits;
 weights=weights(symvar);
-finiteweightsetaOmega=[weights(symindexjac);etaOmega];
+finiteweightsetaOmega=[weights(symindexjac);etac];
 
 % the diagonal
-% lambda=reshape(1./abs(1i*Omega*nt(:)+nu*tilden2(:)),size(tilden2));
 lambda=reshape(1./abs(-c*1i*nz(:)+nu*tilden2(:)),size(tilden2));
 lambda=lambda(symvar);
 
-max(abs(Fext(:))) % Testing
 Fext=setsizetensor(Fext,M2N);
 Fext=Fext(symvar);
 
@@ -44,3 +39,4 @@ Y2=sum(abs(tailresidue).*weights(symindextail));
 
 Y=Y1+Y2;
 
+end

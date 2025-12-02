@@ -13,7 +13,6 @@ symindexfinite=symindex(finitesymvar);
 
 % weights in the symmetrized norm
 orbits=grouporder./multiplicity; % orbit-stabilizer formula
-% weights=eta.^(abs(nx)+abs(ny)+abs(nz)+abs(nt)).*orbits;
 weights=eta.^(abs(nx)+abs(ny)+abs(nz)).*orbits;
 weights=weights(symvar);
 finiteweightsetaOmega=[weights(symindexfinite);etaOmega];
@@ -23,3 +22,5 @@ O=abs(eye(size(A))-A*J);
 % operator norm
 v=finiteweightsetaOmega';
 Z0=max((v*O)./v);
+
+end

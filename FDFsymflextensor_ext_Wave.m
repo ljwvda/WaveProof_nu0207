@@ -16,10 +16,6 @@ function [F,J,DFnu,Jquad,Fext,Fphase,tensors] = ...
 % Fphase is the phase condition
 % tensors contains additional output arguments: Dw,Mw,DMw as tensors of size N
 
-% Adjusted for the F,DF resulting from the wave equation and extra symmetry
-% groups
-% Used for proving third Hopf bifurcation
-
 %%%%%%%%%%%%%%%%%% INDEXING %%%%%%%%%%%%%%%
 
 if ~exist('Jshape','var')

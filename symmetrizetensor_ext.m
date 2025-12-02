@@ -2,8 +2,6 @@ function [wout,average] = symmetrizetensor_ext(win,symmetry)
 % uses group actions to "symmetrize" the tensor
 % the second output normalizes with the order of the group (averaging)
 
-% Extended with cases
-
 sz=(size(win));
 N=(sz(1:4)-1)/2;
 shape.type='rec';
@@ -49,8 +47,7 @@ switch symmetry
         wtmp4=(-1).^(nx+ny+nt).*wout;  % P2D symmetry
         wout=wout+wtmp4;
         average=wout/16;
-   
-    case 20 % Third Hopf bifurcation, specific for traveling wave, tested for nu=0.21
+    case 20 % Symmetry for traveling wave
         wout=win;
         % For comp3 we can mirror in x and y direction (simultaneously), see case 4
         % For comp1 and comp2 the same holds but we also need to multiply by -1
@@ -78,54 +75,6 @@ switch symmetry
         wout=wout+wtmp4;
 
         average = wout/16;
-    case 21 % Hopf bifurcation problem (symmetry for eigenvectors) --> main_v1_proof.m
-        wout=win;
-        wtmp1=wout(end:-1:1,end:-1:1,:,:,:);   % SxSy symmetry
-        wtmp1(:,:,:,:,[1 2])=-wtmp1(:,:,:,:,[1 2]);
-        wout=wout+wtmp1;
-        wtmp2=wout(end:-1:1,:,:,:,:);   % DSx symmetry
-        wtmp2(:,:,:,:,[2 3])=-wtmp2(:,:,:,:,[2 3]);
-        wtmp2=(-1).^(nx+ny).*wtmp2;
-        wout=wout+wtmp2;
-        % wtmp3=permute(wout,[2 1 3 4 5]);  % P4SxR symmetry
-        % wtmp3(:,:,:,:,[1 2])=wtmp3(:,:,:,:,[2 1]);
-        % wtmp3=-(-1).^(ny).*(1i).^(nt).*wtmp3;
-        % wout=wout+wtmp3;
-        % wtmp4=(-1).^(nx+ny+nt).*wout;  % P2D symmetry
-        % wout=wout+wtmp4;
-        average=wout/4;
-    case 22 % Hopf bifurcation problem (symmetry for eigenvectors) --> main_v1_proof.m
-        wout=win;
-        wtmp1=wout(end:-1:1,end:-1:1,:,:,:);   % SxSy symmetry
-        wtmp1(:,:,:,:,[1 2])=-wtmp1(:,:,:,:,[1 2]);
-        wout=wout+wtmp1;
-        % wtmp2=wout(end:-1:1,:,:,:,:);   % DSx symmetry
-        % wtmp2(:,:,:,:,[2 3])=-wtmp2(:,:,:,:,[2 3]);
-        % wtmp2=(-1).^(nx+ny).*wtmp2;
-        % wout=wout+wtmp2;
-        % wtmp3=permute(wout,[2 1 3 4 5]);  % P4SxR symmetry
-        % wtmp3(:,:,:,:,[1 2])=wtmp3(:,:,:,:,[2 1]);
-        % wtmp3=-(-1).^(ny).*(1i).^(nt).*wtmp3;
-        % wout=wout+wtmp3;
-        % wtmp4=(-1).^(nx+ny+nt).*wout;  % P2D symmetry
-        % wout=wout+wtmp4;
-        average=wout/2;
-    case 23 % Hopf bifurcation problem (symmetry for eigenvectors) --> main_v1_proof.m
-        wout=win;
-        % wtmp1=wout(end:-1:1,end:-1:1,:,:,:);   % SxSy symmetry
-        % wtmp1(:,:,:,:,[1 2])=-wtmp1(:,:,:,:,[1 2]);
-        % wout=wout+wtmp1;
-        wtmp2=wout(end:-1:1,:,:,:,:);   % DSx symmetry
-        wtmp2(:,:,:,:,[2 3])=-wtmp2(:,:,:,:,[2 3]);
-        wtmp2=(-1).^(nx+ny).*wtmp2;
-        wout=wout+wtmp2;
-        % wtmp3=permute(wout,[2 1 3 4 5]);  % P4SxR symmetry
-        % wtmp3(:,:,:,:,[1 2])=wtmp3(:,:,:,:,[2 1]);
-        % wtmp3=-(-1).^(ny).*(1i).^(nt).*wtmp3;
-        % wout=wout+wtmp3;
-        % wtmp4=(-1).^(nx+ny+nt).*wout;  % P2D symmetry
-        % wout=wout+wtmp4;
-        average=wout/2;
 end
 
 end
