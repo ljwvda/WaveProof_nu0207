@@ -1,6 +1,7 @@
 # Existence proof of traveling wave solution for the Navier-Stokes equations
 
-This repository contains the code corresponding to the proof of a traveling wave solution at nu=0.2069 in the Navier-Stokes equations, written by Lindsey van der Aalst and Jan Bouwe van den Berg.
+This repository contains the code corresponding to the proof of a traveling wave solution at nu=0.2069 in the Navier-Stokes equations, written by Lindsey van der Aalst and Jan Bouwe van den Berg. The code is heavily inspired by the following code:
+J. B. van den Berg, M. Breden, J.-P. Lessard, and L. van Veen. MATLAB code for "Spontaneous periodic orbits in the Navier-Stokes flow", 2019. https://www.math.vu.nl/~janbouwe/code/navierstokes/.
 
 ---
 
