@@ -3,7 +3,7 @@ function wout = symmetrytofulltensor_ext_Wave(win,shape,symmetry)
 % it requires the shape of the symmetry variables as an input
 % the output tensor then also has size N=sizeshape(shape)
 
-% Adjustes for travleing wave case
+% Adjustes for traveling wave case
 
 N=sizeshape_Wave(shape);
 
