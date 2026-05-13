@@ -8,7 +8,7 @@ J. B. van den Berg, M. Breden, J.-P. Lessard, and L. van Veen. MATLAB code for "
 
 ## How to run the proofs
 
-Run the following file to reproduce the results in the paper:
+Run the following file to reproduce the results:
 
 - [`WaveProof_nu0207.m`](WaveProof_nu0207.m) 
 
